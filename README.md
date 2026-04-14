@@ -2,6 +2,8 @@
 
 Information Infrastructure Team Assignment
 
+https://docs.google.com/document/d/1NfG_KD3mkwp7Ctbwb4iyJDXscaUPqZu145NFkxUKEac/edit?tab=t.0
+
 Website Title:
 Ishinomori Archive
 
