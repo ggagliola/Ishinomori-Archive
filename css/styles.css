@@ -5,7 +5,9 @@
   background-color: #e03939;
   padding: 15px 30px;
 }
-
+.active {
+  font-style: italic;
+}
 .header {
   display: flex;
   text-align: center;
