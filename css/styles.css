@@ -5,9 +5,11 @@
   background-color: #e03939;
   padding: 15px 30px;
 }
+
 .active {
   font-style: italic;
 }
+
 .header {
   display: flex;
   text-align: center;
@@ -72,6 +74,7 @@ header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  align-items: center;
 }
 
 img {
@@ -79,4 +82,15 @@ img {
   height: 90%;
   object-fit: cover;
   align-items: center;
+}
+
+.info .text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+.info h3,
+.info p {
+  margin: 0;
 }
