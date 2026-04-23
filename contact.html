@@ -23,13 +23,28 @@
     </header>
     <main class="content">
       <h2>Contact us</h2>
-      <p>Add contact information later</p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus quaerat
-        corporis, beatae rerum, facilis a sit quod quasi laudantium quibusdam
-        molestias necessitatibus nihil alias placeat sapiente accusamus quo
-        consequuntur totam?
-      </p>
+
+      <form action="/submit-form.html" method="get">
+
+        <label for="name">Name:</label>
+        <br>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <br>
+
+        <label for="email">Email:</label>
+        <br>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <br>
+
+        <label for="message">Message:</label>
+        <br>
+        <textarea name="message" id="message" cols="100" rows="20" required></textarea>
+        <br>
+        <br>
+        <button type="submit">Submit</button>
+      </form>
     </main>
 
     <footer class="footer">
