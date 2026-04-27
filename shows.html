@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Shows - The Ishinomori Archive</title>
+
+    <style>
+      /* Page-specific styling */
+
+      .shows-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .show-card {
+        background: #1e1e1e;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .show-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      .show-card h3 {
+        margin-top: 0;
+      }
+
+      .show-card a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: #ff3c3c;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+
+      .show-card a:hover {
+        background: #ff1f1f;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1 class="header">The Ishinomori Archive</h1>
+      <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="bio.html">Biography</a>
+        <a class="active" href="shows.html">Shows</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <h2>All Shows</h2>
+      <p>Browse the archive of Shotaro Ishinomori’s television works.</p>
+
+      <div id="shows-container" class="shows-grid">
+        <p>Loading shows...</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 The Ishinomori Archive</p>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAKDct_AamhPAuonkwef6utDC51ZudjMkc",
+        authDomain: "ishinomori-archive.firebaseapp.com",
+        projectId: "ishinomori-archive",
+        storageBucket: "ishinomori-archive.firebasestorage.app",
+        messagingSenderId: "288552098418",
+        appId: "1:288552098418:web:277d01f180e22fee9500eb",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const container = document.getElementById("shows-container");
+
+      // Fetch all shows
+      const querySnapshot = await getDocs(collection(db, "shows"));
+
+      container.innerHTML = ""; // clear loading text
+
+      querySnapshot.forEach((doc) => {
+        const show = doc.data();
+
+        const card = document.createElement("div");
+        card.classList.add("show-card");
+
+        card.innerHTML = `
+    <h3>${show.title}</h3>
+    <p><strong>Year:</strong> ${show.year || "Unknown"}</p>
+    <p>${show.description || ""}</p>
+    <a href="show.html?id=${doc.id}">View Details</a>
+  `;
+
+        container.appendChild(card);
+      });
+    </script>
+  </body>
+</html>

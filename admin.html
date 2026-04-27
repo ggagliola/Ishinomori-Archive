@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Admin Panel - Ishinomori Archive</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .admin-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 10px;
+      }
+
+      button {
+        padding: 10px 15px;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+
+      .show-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      .danger {
+        background: #ff4d4d;
+        color: white;
+      }
+
+      .edit {
+        background: #4da6ff;
+        color: white;
+      }
+
+      .create {
+        background: #4caf50;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="admin-container">
+      <h1>Admin Panel</h1>
+
+      <!-- CREATE FORM -->
+      <h2>Add / Edit Show</h2>
+
+      <input id="title" placeholder="Title" />
+      <input id="year" placeholder="Year" />
+      <input id="slug" placeholder="Slug (kikaider)" />
+      <textarea id="description" placeholder="Description"></textarea>
+      <textarea id="plot" placeholder="Plot"></textarea>
+      <textarea id="legacy" placeholder="Legacy"></textarea>
+
+      <button class="create" id="saveBtn">Save Show</button>
+
+      <hr />
+
+      <h2>Existing Shows</h2>
+      <div id="showsList"></div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+        deleteDoc,
+        doc,
+        updateDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "YOUR_KEY",
+        authDomain: "YOUR_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const showsRef = collection(db, "shows");
+
+      let editingId = null;
+
+      // -------------------- CREATE / UPDATE --------------------
+      document.getElementById("saveBtn").addEventListener("click", async () => {
+        const data = {
+          title: title.value,
+          year: year.value,
+          slug: slug.value,
+          description: description.value,
+          plot: plot.value,
+          legacy: legacy.value,
+          videos: [],
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "shows", editingId), data);
+          editingId = null;
+          alert("Show updated!");
+        } else {
+          await addDoc(showsRef, data);
+          alert("Show added!");
+        }
+
+        clearForm();
+        loadShows();
+      });
+
+      // -------------------- LOAD SHOWS --------------------
+      async function loadShows() {
+        const snapshot = await getDocs(showsRef);
+
+        const container = document.getElementById("showsList");
+        container.innerHTML = "";
+
+        snapshot.forEach((d) => {
+          const show = d.data();
+
+          const div = document.createElement("div");
+          div.classList.add("show-item");
+
+          div.innerHTML = `
+      <strong>${show.title}</strong> (${show.year || ""})
+      <br><br>
+
+      <button class="edit">Edit</button>
+      <button class="danger">Delete</button>
+    `;
+
+          // EDIT
+          div.querySelector(".edit").onclick = () => {
+            editingId = d.id;
+
+            title.value = show.title;
+            year.value = show.year;
+            slug.value = show.slug;
+            description.value = show.description;
+            plot.value = show.plot;
+            legacy.value = show.legacy;
+          };
+
+          // DELETE
+          div.querySelector(".danger").onclick = async () => {
+            await deleteDoc(doc(db, "shows", d.id));
+            loadShows();
+          };
+
+          container.appendChild(div);
+        });
+      }
+
+      // -------------------- CLEAR FORM --------------------
+      function clearForm() {
+        title.value = "";
+        year.value = "";
+        slug.value = "";
+        description.value = "";
+        plot.value = "";
+        legacy.value = "";
+      }
+
+      loadShows();
+    </script>
+  </body>
+</html>
