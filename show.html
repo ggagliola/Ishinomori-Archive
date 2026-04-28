@@ -79,33 +79,18 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
 
-      // ---------------- SAFE LIST HANDLER ----------------
       function toList(data) {
         if (!data) return [];
-
         if (Array.isArray(data)) return data;
-
         if (typeof data === "string") {
           return data
             .split("\n")
             .map((x) => x.trim())
             .filter(Boolean);
         }
-
         return [];
       }
 
-      <p class="description-preview">${show.description}</p>;
-
-      function truncate(text, maxLength = 120) {
-        if (!text) return "";
-        return text.length > maxLength
-          ? text.slice(0, maxLength) + "..."
-          : text;
-      }
-      show.description = truncate(show.description);
-
-      // ---------------- LOAD SHOW ----------------
       async function loadShow() {
         if (!id) {
           container.innerHTML = "<p>No show selected.</p>";
@@ -156,39 +141,23 @@
             </div>
           `;
 
-          // ---------------- CAST (BULLETS) ----------------
-          const castEl = document.getElementById("cast-section");
-
-          castEl.innerHTML = `
+          document.getElementById("cast-section").innerHTML = `
             <ul>
-              ${
-                cast.length > 0
-                  ? cast.map((item) => `<li>${item}</li>`).join("")
-                  : "<li>No cast available.</li>"
-              }
+              ${cast.length ? cast.map((x) => `<li>${x}</li>`).join("") : "<li>No cast available.</li>"}
             </ul>
           `;
 
-          // ---------------- TRIVIA (BULLETS) ----------------
-          const triviaEl = document.getElementById("trivia-section");
-
-          triviaEl.innerHTML = `
+          document.getElementById("trivia-section").innerHTML = `
             <ul>
-              ${
-                trivia.length > 0
-                  ? trivia.map((item) => `<li>${item}</li>`).join("")
-                  : "<li>No trivia available.</li>"
-              }
+              ${trivia.length ? trivia.map((x) => `<li>${x}</li>`).join("") : "<li>No trivia available.</li>"}
             </ul>
           `;
 
-          // ---------------- VIDEOS ----------------
           const videoGrid = document.getElementById("video-grid");
 
-          if (videos.length > 0) {
+          if (videos.length) {
             videos.forEach((url) => {
               const iframe = document.createElement("iframe");
-
               iframe.width = "100%";
               iframe.height = "315";
               iframe.src = url;
@@ -196,7 +165,6 @@
               iframe.allow =
                 "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
               iframe.allowFullscreen = true;
-
               videoGrid.appendChild(iframe);
             });
           } else {
