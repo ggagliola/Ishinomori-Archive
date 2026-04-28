@@ -7,8 +7,6 @@
     <title>Shows - The Ishinomori Archive</title>
 
     <style>
-      /* Page-specific styling */
-
       .shows-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -29,10 +27,8 @@
       .show-card:hover {
         transform: scale(1.03);
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            }
-  .show-card:hover h3{
-    color: #ff1f1f;
-  }
+      }
+
       .show-card h3 {
         margin-top: 0;
       }
@@ -47,8 +43,11 @@
         border-radius: 5px;
       }
 
-      .show-card a:hover {
-        background: #ff1f1f;
+      .description-preview {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
     </style>
   </head>
@@ -67,8 +66,6 @@
 
     <main class="content">
       <h2>All Shows</h2>
-      <p>Browse the archive of Shotaro Ishinomori’s television works.</p>
-
       <div id="shows-container" class="shows-grid">
         <p>Loading shows...</p>
       </div>
@@ -100,23 +97,21 @@
 
       const container = document.getElementById("shows-container");
 
-      // Fetch all shows
-      const querySnapshot = await getDocs(collection(db, "shows"));
+      const snapshot = await getDocs(collection(db, "shows"));
 
-      container.innerHTML = ""; // clear loading text
+      container.innerHTML = "";
 
-      querySnapshot.forEach((doc) => {
+      snapshot.forEach((doc) => {
         const show = doc.data();
 
         const card = document.createElement("div");
         card.classList.add("show-card");
 
         card.innerHTML = `
-    <h3>${show.title}</h3>
-    <p><strong>Year:</strong> ${show.year || "Unknown"}</p>
-    <p>${show.description || ""}</p>
-    <a href="show.html?id=${doc.id}">View Details</a>
-  `;
+          <h3>${show.title}</h3>
+          <p class="description-preview">${show.description || ""}</p>
+          <a href="show.html?id=${doc.id}">View Details</a>
+        `;
 
         container.appendChild(card);
       });
