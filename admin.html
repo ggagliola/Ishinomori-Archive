@@ -70,7 +70,6 @@
       </header>
       <h1>Admin Panel</h1>
 
-      <!-- CREATE FORM -->
       <h2>Add / Edit Show</h2>
 
       <input id="title" placeholder="Title" />
@@ -114,7 +113,6 @@
 
       let editingId = null;
 
-      // -------------------- CREATE / UPDATE --------------------
       document.getElementById("saveBtn").addEventListener("click", async () => {
         const data = {
           title: title.value,
@@ -139,7 +137,6 @@
         loadShows();
       });
 
-      // -------------------- LOAD SHOWS --------------------
       async function loadShows() {
         const snapshot = await getDocs(showsRef);
 
@@ -160,7 +157,6 @@
       <button class="danger">Delete</button>
     `;
 
-          // EDIT
           div.querySelector(".edit").onclick = () => {
             editingId = d.id;
 
@@ -172,7 +168,6 @@
             legacy.value = show.legacy;
           };
 
-          // DELETE
           div.querySelector(".danger").onclick = async () => {
             await deleteDoc(doc(db, "shows", d.id));
             loadShows();
@@ -182,7 +177,6 @@
         });
       }
 
-      // -------------------- CLEAR FORM --------------------
       function clearForm() {
         title.value = "";
         year.value = "";
