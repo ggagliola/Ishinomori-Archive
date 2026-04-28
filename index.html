@@ -1,52 +1,105 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/styles.css" />
     <title>The Ishinomori Archive</title>
-  </head>
 
-  <body>
     <style>
-      a button{
-                display: inline-block;
-        margin-top: 10px;
-        padding: 8px 12px;
+      /* HERO LAYOUT */
+      .hero {
+        max-width: 900px;
+        margin: 80px auto;
+        padding: 40px;
+        text-align: center;
+
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 12px;
+        color: white;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+      }
+
+      .hero p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      /* BUTTON STYLE (FIXED) */
+      .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 18px;
         background: #ff3c3c;
         color: white;
         text-decoration: none;
-        border-radius: 5px;
+        border-radius: 6px;
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .btn:hover {
+        background: #ff1f1f;
+        transform: scale(1.05);
+      }
+
+      /* OPTIONAL PAGE BACKGROUND SUPPORT */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-image: url("images/background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      /* DARK OVERLAY FOR READABILITY */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        z-index: -1;
       }
     </style>
+  </head>
+
+  <body>
     <header>
       <h1 class="header">The Ishinomori Archive</h1>
+
       <nav class="navbar">
         <a class="active" href="index.html">Home</a>
         <a href="bio.html">Biography</a>
         <a href="shows.html">Shows</a>
         <a href="contact.html">Contact Us</a>
         <a href="admin.html">Admin</a>
+        <a href="api.html">Manga Search</a>
       </nav>
     </header>
 
-    <main class="content">
-      <h2>Welcome to the Archive</h2>
+    <main>
+      <section class="hero">
+        <h2>Welcome to the Archive</h2>
 
-      <p>
-        This site is dedicated to the forgotten works of Shotaro Ishinomori, one
-        of the most influential creators in Japanese tokusatsu and manga
-        history.
-      </p>
+        <p>
+          This site is dedicated to the works of Shotaro Ishinomori, one of the
+          most influential creators in Japanese tokusatsu and manga history.
+        </p>
 
-      <p>
-        Explore a collection of his television series, including detailed plot
-        summaries, production history, and legacy information.
-      </p>
+        <p>
+          Explore television series, character histories, production notes, and
+          legacy information across his vast creative universe.
+        </p>
 
-      <a href="shows.html">
-        <button>Browse Shows</button>
-      </a>
+        <a class="btn" href="shows.html">Browse Shows</a>
+      </section>
     </main>
 
     <footer class="footer">
